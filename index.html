@@ -5,108 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enigmes de Noël</title>
-    <style>
-        body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            margin: 20px;
-            background-color: #fdf6e3;
-            color: #2e3d49;
-        }
-
-        h1 {
-            text-align: center;
-            color: #b22222;
-            text-shadow: 2px 2px #ffcccc;
-        }
-
-        .enigme {
-            display: none;
-            margin-bottom: 20px;
-            background: #fff9f1;
-            border: 2px solid #e74c3c;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .enigme.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        input[type="text"] {
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #c0392b;
-            border-radius: 5px;
-            width: calc(100% - 22px);
-        }
-
-        button {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        button:hover {
-            background: #c0392b;
-        }
-
-        ul {
-            padding-left: 20px;
-        }
-
-        li {
-            margin: 5px 0;
-        }
-
-        #fin {
-            text-align: center;
-            background: #eaf7df;
-            border: 2px solid #27ae60;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        video {
-            display: block;
-            margin: 20px auto;
-            border: 5px solid #ffcccc;
-            border-radius: 15px;
-            max-width: 100%;
-            max-height: 100vh;
-            object-fit: contain;
-        }
-
-        .christmas-header {
-            background: url('https://image.freepik.com/vecteurs-libre/banniere-noel-festive-branches-sapin-confettis-boules-rouges-noel_302982-1331.jpg') no-repeat center center;
-            background-size: cover;
-            padding: 50px;
-            text-align: center;
-            color: white;
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-radius: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -126,7 +25,8 @@
     </div>
 
     <div class="enigme" id="enigme2">
-        <p><strong>Énigme 2 :</strong> Quelle est le résultat de la somme de tous les nombres de 1 à 25 ? (sans calculatrice 😉)</p>
+        <p><strong>Énigme 2 :</strong> Quelle est le résultat de la somme de tous les nombres de 1 à 25 ? (sans
+            calculatrice 😉)</p>
         <label for="reponse2">Votre réponse :</label>
         <input type="text" id="reponse2" placeholder="Votre réponse">
         <button onclick="verifierReponse(2, '325')">Valider</button>
@@ -141,7 +41,8 @@
     </div>
 
     <div class="enigme" id="enigme4">
-        <p><strong>Énigme 4 (pour les plus petits):</strong> Je suis toujours devant toi, mais tu ne peux jamais m'atteindre. Qui suis-je ?</p>
+        <p><strong>Énigme 4 (pour les plus petits):</strong> Je suis toujours devant toi, mais tu ne peux jamais
+            m'atteindre. Qui suis-je ?</p>
         <label for="reponse4">Votre réponse :</label>
         <input type="text" id="reponse4" placeholder="Votre réponse">
         <button onclick="verifierReponse(4, 'le futur')">Valider</button>
@@ -149,10 +50,11 @@
 
     <div class="enigme" id="enigme5">
         <p><strong>Énigme 5 :</strong> Maintenant que vous avez résolu ces 4 énigmes,
-             il vous faut trouver les 3 clés magiques qui permettent d'ouvrir ma hotte</p>
+            il vous faut trouver les 3 clés magiques qui permettent d'ouvrir ma hotte</p>
         <ul>
             <li>La première est suspendue</li>
-            <li>La deuxième se trouve dans une vitrine aux yeux de tous</li>
+            <li>La deuxième se trouve dans une vitrine aux yeux de tous
+                (une fois trouvée, <a href="Aides/Ouverture du coffre.html">cliquez ici</a>)</li>
             <li>La dernière est bien conservée</li>
         </ul>
         <label for="reponse5">Votre réponse :</label>
@@ -162,8 +64,9 @@
 
     <div id="fin" style="display: none;">
         <h2>Félicitations ! 🎉</h2>
-        <p><video controls src="Felicitations.mp4">Merci, grâce à vous je vais pouvoir distribuer mes cadeux à temps. 
-            Pour vous remercier, vous pouvez vous servir dans ma hotte. Bonnes fêtes et à l'année prochaine</video></p>
+        <p><video controls src="Felicitations.mp4">Merci, grâce à vous je vais pouvoir distribuer mes cadeux à temps.
+                Pour vous remercier, vous pouvez vous servir dans ma hotte. Bonnes fêtes et à l'année prochaine</video>
+        </p>
         <p>Le code pour ouvrir ma hotte est : <strong>3630</strong></p>
     </div>
 
