@@ -1,102 +1,50 @@
-body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    margin: 20px;
-    background-color: #fdf6e3;
-    color: #2e3d49;
-}
-
 h1 {
+    font-family: cursive, Arial;
     text-align: center;
-    color: #b22222;
-    text-shadow: 2px 2px #ffcccc;
+    margin-top: 10px;
+    font-size: 2.5em;
 }
 
-.enigme {
-    display: none;
-    margin-bottom: 20px;
-    background: #fff9f1;
-    border: 2px solid #e74c3c;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+h2 {
+    text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
-.enigme.active {
+h3 {
+    text-align: center;
+    line-height: 0%;
+}
+
+#blason {
     display: block;
-    animation: fadeIn 0.5s;
+    margin-left: auto;
+    margin-right: auto;
+    height: 200px;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+#choixpeau {
+    display: block;
+    margin: auto;
+    height: 150px;
 }
 
-input[type="text"] {
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #c0392b;
-    border-radius: 5px;
-    width: calc(100% - 22px);
+#bigBoutton {
+    font-family: cursive, Arial;
+    background-color: rgb(37, 103, 245);
+    font-size: 1.5em;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 button {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-button:hover {
-    background: #c0392b;
-}
-
-ul {
-    padding-left: 20px;
-}
-
-li {
-    margin: 5px 0;
-}
-
-#fin {
-    text-align: center;
-    background: #eaf7df;
-    border: 2px solid #27ae60;
-    border-radius: 15px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-video {
     display: block;
-    margin: 20px auto;
-    border: 5px solid #ffcccc;
-    border-radius: 15px;
-    max-width: 100%;
-    max-height: 100vh;
-    object-fit: contain;
-}
-
-.christmas-header {
-    background: url('https://image.freepik.com/vecteurs-libre/banniere-noel-festive-branches-sapin-confettis-boules-rouges-noel_302982-1331.jpg') no-repeat center center;
-    background-size: cover;
-    padding: 50px;
-    text-align: center;
-    color: rgb(255, 255, 255);
-    font-size: 2em;
-    font-weight: bold;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
+    margin: auto;
+    margin-top: 3%;
+    border-radius: 5px;
+    box-shadow:
+        inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+        inset -2px -2px 3px rgba(0, 0, 0, 0.6);
 }

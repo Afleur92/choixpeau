@@ -4,91 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enigmes de Noël</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Choixpeau magique</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <div class="christmas-header">
-        🎄 Bienvenue au jeu des énigmes de Noël 🎅
+    <script type="module" src="./script/quizz.js"></script>
+    <img id="choixpeau" src="./data/Choixpeau.jpg" alt="Dessin d'un chapeau magique" />
+    <div id="welcomePage">
+        <h1>Questionnaire</h1>
+        <button id="bigBoutton">COMMENCER</button>
     </div>
-
-    <video controls src="Message pere noel.mp4">Message du père noël</video>
-
-    <h1>Résolvez les énigmes et sauvez Noël !</h1>
-
-    <div class="enigme active" id="enigme1">
-        <p><strong>Énigme 1 (pour les plus petits):</strong> Quel est le nombre suivant dans la série 2, 4, 6, 8, ?</p>
-        <label for="reponse1">Votre réponse :</label>
-        <input type="text" id="reponse1" placeholder="Votre réponse">
-        <button onclick="verifierReponse(1, '10')">Valider</button>
-    </div>
-
-    <div class="enigme" id="enigme2">
-        <p><strong>Énigme 2 :</strong> Quelle est le résultat de la somme de tous les nombres de 1 à 25 ? (sans
-            calculatrice 😉)</p>
-        <label for="reponse2">Votre réponse :</label>
-        <input type="text" id="reponse2" placeholder="Votre réponse">
-        <button onclick="verifierReponse(2, '325')">Valider</button>
-    </div>
-
-    <div class="enigme" id="enigme3">
-        <p><strong>Énigme 3 :</strong> Trouver les cinq chiffres en complétant la grille</p>
-        <p><img src="sudoku.png" alt="grille de sudoku" style="max-width: 100%; border: 2px solid #e74c3c;"></p>
-        <label for="reponse3">Votre réponse :</label>
-        <input type="text" id="reponse3" placeholder="Votre réponse">
-        <button onclick="verifierReponse(3, '75584')">Valider</button>
-    </div>
-
-    <div class="enigme" id="enigme4">
-        <p><strong>Énigme 4 (pour les plus petits):</strong> Je suis toujours devant toi, mais tu ne peux jamais
-            m'atteindre. Qui suis-je ?</p>
-        <label for="reponse4">Votre réponse :</label>
-        <input type="text" id="reponse4" placeholder="Votre réponse">
-        <button onclick="verifierReponse(4, 'le futur')">Valider</button>
-    </div>
-
-    <div class="enigme" id="enigme5">
-        <p><strong>Énigme 5 :</strong> Maintenant que vous avez résolu ces 4 énigmes,
-            il vous faut trouver les 3 clés magiques qui permettent d'ouvrir ma hotte</p>
-        <ul>
-            <li>La première est suspendue</li>
-            <li>La deuxième se trouve dans une vitrine aux yeux de tous
-                (une fois trouvée, <a href="Aides/Ouverture du coffre.html">cliquez ici</a>)</li>
-            <li>La dernière est bien conservée</li>
-        </ul>
-        <label for="reponse5">Votre réponse :</label>
-        <input type="text" id="reponse5" placeholder="Votre réponse">
-        <button onclick="verifierReponse(5, '723')">Valider</button>
-    </div>
-
-    <div id="fin" style="display: none;">
-        <h2>Félicitations ! 🎉</h2>
-        <p><video controls src="Felicitations.mp4">Merci, grâce à vous je vais pouvoir distribuer mes cadeux à temps.
-                Pour vous remercier, vous pouvez vous servir dans ma hotte. Bonnes fêtes et à l'année prochaine</video>
-        </p>
-        <p>Le code pour ouvrir ma hotte est : <strong>3630</strong></p>
-    </div>
-
-    <script>
-        function verifierReponse(num, reponseCorrecte) {
-            const reponseUtilisateur = document.getElementById(`reponse${num}`).value.trim().toLowerCase();
-            if (!reponseUtilisateur) {
-                alert('Veuillez entrer une réponse avant de valider.');
-                return;
-            }
-            if (reponseUtilisateur === reponseCorrecte.toLowerCase()) {
-                document.getElementById(`enigme${num}`).classList.remove('active');
-                if (document.getElementById(`enigme${num + 1}`)) {
-                    document.getElementById(`enigme${num + 1}`).classList.add('active');
-                } else {
-                    document.getElementById('fin').style.display = 'block';
-                }
-            } else {
-                alert('Mauvaise réponse, essayez encore !');
-            }
-        }
-    </script>
 </body>
 
-</html>
+</html> 
