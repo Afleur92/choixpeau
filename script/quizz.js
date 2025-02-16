@@ -7,7 +7,8 @@ let answers = [];
 
 function startQuizz() {
     /*Sarts the quizz */
-    let welcomePage = document.querySelector('#welcomePage');
+    answers = [];
+    let welcomePage = document.querySelector('div');
     if (welcomePage) {
         welcomePage.remove();
     }
@@ -30,6 +31,9 @@ function nextQuestion(questions, questionId) {
     document.body.appendChild(question);
 
     createButtons(questions, questionId);
+    if (questionId > 0) {
+        createPreviousButton(question);
+    }
 
 }
 
@@ -78,9 +82,30 @@ function buttonClicked(questions, letter, questionId) {
     }
 }
 
+function createPreviousButton(question) {
+    /*Creates a button to go back to the previous question
+    Input: question (div) */
+    let previousButton = document.createElement('button');
+    previousButton.id = "previousButton";
+    previousButton.appendChild(document.createTextNode('Question précédente'));
+    question.appendChild(previousButton);
+
+    previousButton.addEventListener("click", function () { previousQuestion(question) });
+}
+function previousQuestion(question) {
+    /*Goes back to the previous question
+    Input: question (div) */
+    const idPreviousQuestion = parseInt(question.id) - 1;
+    if (question) {
+        answers.pop();
+        question.remove();
+        nextQuestion(questions, idPreviousQuestion);
+    }
+}
+
 function showResult(answers) {
     /*Shows the results for the profile 
-    Input: profile (array) */
+    Input: answers (array) */
     const profile = createProfile(answers);
     const nearestNeighbors = knn(profile, charactersTab, 5);
     const house = searchHouse(nearestNeighbors);
@@ -102,6 +127,8 @@ function showResult(answers) {
 
     let profileText = profileToText(profile);
     result.appendChild(profileText);
+
+    result.appendChild(createButtonRestart());
 }
 
 function createProfile(answers) {
@@ -186,5 +213,17 @@ function profileToText(profile) {
     }
     return paragraph;
 }
-document.getElementById("bigBoutton").addEventListener("click", startQuizz);
+
+function createButtonRestart() {
+    /*Creates a button to restart
+    output: buttonRestart (button) */
+    let buttonRestart = document.createElement('button');
+    buttonRestart.id = "bigButton";
+    buttonRestart.appendChild(document.createTextNode("RECOMMENCER"));
+    buttonRestart.addEventListener("click", startQuizz);
+
+    return buttonRestart;
+}
+
+document.getElementById("bigButton").addEventListener("click", startQuizz);
 
