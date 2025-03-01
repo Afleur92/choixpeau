@@ -40,6 +40,7 @@ h3 {
 }
 
 button {
+    font-size: 1em;
     display: block;
     margin: auto;
     margin-top: 3%;
@@ -53,4 +54,33 @@ button {
     position: fixed;
     bottom: 2%;
     left: 2%;
+}
+
+#settingsImage {
+    position: fixed;
+    top: 2%;
+    right: 2%;
+    height: 50px;
+}
+
+#arrow {
+    position: fixed;
+    top: 2%;
+    left: 2%;
+    width: 100px;
+}
+
+#kSelector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+ul {
+    display: block;
+    margin-left: 20%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.2em;
 }

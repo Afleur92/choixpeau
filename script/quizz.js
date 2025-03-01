@@ -1,9 +1,9 @@
-import { mergingTables, importData, validInteger } from './import_table.js';
-import { knn, searchHouse } from './knn.js';
+import { importData } from './import_table.js';
+import { showResult } from './results.js';
 
-const charactersTab = await mergingTables();
 const questions = await importData("./data/QCM.csv", false);
 let answers = [];
+let k = 5;
 
 function startQuizz() {
     /*Sarts the quizz */
@@ -78,7 +78,7 @@ function buttonClicked(questions, letter, questionId) {
     if (questionId + 1 < questions.length) {
         nextQuestion(questions, questionId + 1);
     } else {
-        showResult(answers);
+        showResult(answers, k).addEventListener("click", startQuizz);
     }
 }
 
@@ -103,127 +103,77 @@ function previousQuestion(question) {
     }
 }
 
-function showResult(answers) {
-    /*Shows the results for the profile 
-    Input: answers (array) */
-    const profile = createProfile(answers);
-    const nearestNeighbors = knn(profile, charactersTab, 5);
-    const house = searchHouse(nearestNeighbors);
-    const resultText = "Bravo ! Vous appartenez à la maison : " + house;
-
-    let result = document.createElement('div');
-    result.id = "result";
-    document.body.appendChild(result);
-
-    let text = document.createElement('h1');
-    text.appendChild(document.createTextNode(resultText));
-    result.appendChild(text);
-
-    let image = document.createElement('img');
-    image.src = "./data/" + house + ".jpg";
-    image.alt = "Blason " + house;
-    image.id = "blason";
-    result.appendChild(image);
-
-    let profileText = profileToText(profile);
-    result.appendChild(profileText);
-
-    result.appendChild(createButtonRestart());
-}
-
-function createProfile(answers) {
-    /*Creates a profile based on the answers
-    Input: answers (array)
-    Output: profile (object) */
-    const keys = ["Courage", "Ambition", "Intelligence", "Good"];
-    let profile = {};
-    let sumAnswers = [0, 0, 0, 0];
-    for (let answer of answers) {
-        answer = answer.trim().slice(1, -1).split(',');
-        answer = answer.map(validInteger);
-        sumAnswers = sumArrays(sumAnswers, answer);
-    }
-    const normalizedAnswers = normalization(sumAnswers);
-
-    for (let i = 0; i < keys.length; i++) {
-        profile[keys[i]] = normalizedAnswers[i];
-    }
-    console.log(sumAnswers, profile);
-    return profile;
-}
-
-function sumArrays(arrayA, arrayB) {
-    /*Sums two arrays
+function quitSettings(element, settingsImage, arrow) {
+    /*quits the settings
     Inputs:
-    -arrayA (array)
-    -arrayB (array)
-    Output: arrayC (array) */
-
-    let arrayC = [];
-    for (let i = 0; i < Math.min(arrayA.length, arrayB.length); i++) {
-        arrayC.push(arrayA[i] + arrayB[i]);
-    }
-    return arrayC;
-}
-
-/* la notmalisation permet d'exagérer les traits de caractère
-   en mettant à 1 la caractéristique la moins importante
-   et à 9 la plus importante */
-function normalization(sumAnswers) {
-    /*Normalizes the answers 
-    to get characteristics between 1 and 9
-    Input: sumAnswers (array)
-    Output: normalizedAnswers (array) */
-    let normalizedAnswers = [];
-    const xMin = Math.min(...sumAnswers);
-    const xMax = Math.max(...sumAnswers);
-
-    if (xMin === xMax) {
-        alert("profile bizzare")
-        return sumAnswers;
+    -element (div)
+    - settingsImage (img)
+    - arrow (img)
+    Output: k (number) */
+    k = document.getElementById('k').value;
+    if (isNaN(parseInt(k)) || parseInt(k) < 1 || parseInt(k) > 50) {
+        alert("La valeur de k saisie n'est pas valide. Par conséquent k=5");
+        k = 5;
+    } else {
+        k = parseInt(k);
     }
 
-    for (let x of sumAnswers) {
-        let normalizedValue = (x - xMin) / (xMax - xMin);
-        if (normalizedValue < 0.1) {
-            normalizedValue = 0.1;
-        } else if (normalizedValue > 0.9) {
-            normalizedValue = 0.9;
-        }
-        normalizedAnswers.push(normalizedValue * 10);
+    arrow.remove();
+    document.querySelector('ul').remove();
+
+    if (element.id === "result") {
+        showResult(answers, k).addEventListener("click", startQuizz);
+    } else {
+        document.body.appendChild(element);
     }
-    return normalizedAnswers;
+    document.body.appendChild(settingsImage);
+
+    return k;
 }
 
-function profileToText(profile) {
-    /*Transforms the object into a paragraph
-    Input: profile (object)
-    Output: paragraph (h3) */
-    let paragraph = document.createElement('h3');
+function settings() {
+    /*Displays the settings */
+    let settings = document.createElement("ul");
+    document.body.appendChild(settings)
 
-    let p = document.createElement('p');
-    p.appendChild(document.createTextNode("Votre profil :"));
-    paragraph.appendChild(p);
+    //Select k value
+    let kSelector = document.createElement('li');
+    settings.appendChild(kSelector);
 
-    for (let characteristic in profile) {
-        p = document.createElement('p');
-        p.appendChild(document.createTextNode(
-            characteristic + " : " + profile[characteristic]));
-        paragraph.appendChild(p);
-    }
-    return paragraph;
+    let selectKText = document.createTextNode('Sélectionner une valeur de k : ')
+    kSelector.appendChild(selectKText);
+
+    let selectKInput = document.createElement('input');
+    selectKInput.type = "number";
+    selectKInput.id = "k";
+    selectKInput.min = 1;
+    selectKInput.max = 50;
+    selectKInput.defaultValue = k;
+    kSelector.appendChild(selectKInput);
+
+    //Get infos
+    let infosLink = document.createElement('li');
+    infosLink.innerHTML = "Télécharger l'<a href='./data/infographie.pdf' target='_blank'>infographie<a>";
+    settings.appendChild(infosLink);
 }
 
-function createButtonRestart() {
-    /*Creates a button to restart
-    output: buttonRestart (button) */
-    let buttonRestart = document.createElement('button');
-    buttonRestart.id = "bigButton";
-    buttonRestart.appendChild(document.createTextNode("RECOMMENCER"));
-    buttonRestart.addEventListener("click", startQuizz);
+function openSettings() {
+    /*Opens the settings */
+    let settingsImage = document.getElementById("settingsImage");
+    settingsImage.remove();
+    let div = document.querySelector("div");
+    if (div) { div.remove(); }
 
-    return buttonRestart;
+    settings();
+
+    let arrow = document.createElement('img');
+    arrow.src = "./data/Arrow.jpg";
+    arrow.id = "arrow";
+    arrow.alt = "Flèche retour";
+    document.body.appendChild(arrow);
+
+    arrow.addEventListener("click", function () { quitSettings(div, settingsImage, arrow) });
 }
-
 document.getElementById("bigButton").addEventListener("click", startQuizz);
+document.getElementById("settingsImage").addEventListener("click", openSettings);
 
