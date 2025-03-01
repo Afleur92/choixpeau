@@ -80,7 +80,8 @@ button {
 
 ul {
     display: block;
-    margin-left: 20%;
+    margin-left: 5%;
+    margin-right: 5%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 1.2em;
 }

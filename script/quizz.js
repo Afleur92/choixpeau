@@ -32,7 +32,7 @@ function nextQuestion(questions, questionId) {
 
     createButtons(questions, questionId);
     if (questionId > 0) {
-        createPreviousButton(question);
+        createPreviousArrow(question);
     }
 
 }
@@ -82,15 +82,16 @@ function buttonClicked(questions, letter, questionId) {
     }
 }
 
-function createPreviousButton(question) {
+function createPreviousArrow(question) {
     /*Creates a button to go back to the previous question
     Input: question (div) */
-    let previousButton = document.createElement('button');
-    previousButton.id = "previousButton";
-    previousButton.appendChild(document.createTextNode('Question précédente'));
-    question.appendChild(previousButton);
+    let previousArrow = document.createElement('img');
+    previousArrow.src = "./data/Arrow.JPG";
+    previousArrow.alt = "Flèche précédent";
+    previousArrow.id = "arrow";
+    question.appendChild(previousArrow);
 
-    previousButton.addEventListener("click", function () { previousQuestion(question) });
+    previousArrow.addEventListener("click", function () { previousQuestion(question) });
 }
 function previousQuestion(question) {
     /*Goes back to the previous question
@@ -167,7 +168,7 @@ function openSettings() {
     settings();
 
     let arrow = document.createElement('img');
-    arrow.src = "./data/Arrow.jpg";
+    arrow.src = "./data/Arrow.JPG";
     arrow.id = "arrow";
     arrow.alt = "Flèche retour";
     document.body.appendChild(arrow);
