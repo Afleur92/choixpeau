@@ -1,5 +1,5 @@
 import { importData } from './import_table.js';
-import { showResult } from './results.js';
+import { showResult, createArrow } from './results.js';
 
 const questions = await importData("./data/QCM.csv", false);
 let answers = [];
@@ -78,17 +78,14 @@ function buttonClicked(questions, letter, questionId) {
     if (questionId + 1 < questions.length) {
         nextQuestion(questions, questionId + 1);
     } else {
-        showResult(answers, k).addEventListener("click", startQuizz);
+        showResult(answers, k);
     }
 }
 
 function createPreviousArrow(question) {
     /*Creates a button to go back to the previous question
     Input: question (div) */
-    let previousArrow = document.createElement('img');
-    previousArrow.src = "./data/Arrow.JPG";
-    previousArrow.alt = "Flèche précédent";
-    previousArrow.id = "arrow";
+    let previousArrow = createArrow();
     question.appendChild(previousArrow);
 
     previousArrow.addEventListener("click", function () { previousQuestion(question) });
@@ -122,8 +119,8 @@ function quitSettings(element, settingsImage, arrow) {
     arrow.remove();
     document.querySelector('ul').remove();
 
-    if (element.id === "result") {
-        showResult(answers, k).addEventListener("click", startQuizz);
+    if (element.id === "result" || "neighbors") {
+        showResult(answers, k);
     } else {
         document.body.appendChild(element);
     }
@@ -167,14 +164,18 @@ function openSettings() {
 
     settings();
 
-    let arrow = document.createElement('img');
-    arrow.src = "./data/Arrow.JPG";
-    arrow.id = "arrow";
-    arrow.alt = "Flèche retour";
+    let arrow = createArrow();
     document.body.appendChild(arrow);
-
     arrow.addEventListener("click", function () { quitSettings(div, settingsImage, arrow) });
 }
-document.getElementById("bigButton").addEventListener("click", startQuizz);
+
+function addEventStartQuizz(element) {
+    /*adds an event listener to the element
+    Input: element */
+    element.addEventListener("click", startQuizz);
+}
+
+document.getElementById("startButton").addEventListener("click", startQuizz);
 document.getElementById("settingsImage").addEventListener("click", openSettings);
 
+export { addEventStartQuizz };

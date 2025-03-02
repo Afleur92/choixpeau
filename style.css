@@ -29,7 +29,7 @@ h3 {
     height: 150px;
 }
 
-#bigButton {
+.bigButton {
     font-family: cursive, Arial;
     background-color: rgb(37, 103, 245);
     font-size: 1.5em;
@@ -79,9 +79,50 @@ button {
 }
 
 ul {
-    display: block;
-    margin-left: 5%;
-    margin-right: 5%;
+    width: 80%;
+    margin: 20px auto;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 1.2em;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border: #000000;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #000000;
+}
+
+th {
+    background: #ffcc00;
+    color: #333;
+}
+
+tr:hover {
+    background: #ffeb99;
+}
+
+.house-Gryffindor {
+    background-color: red;
+}
+
+.house-Hufflepuff {
+    background-color: goldenrod;
+}
+
+.house-Ravenclaw {
+    background-color: blue;
+}
+
+.house-Slytherin {
+    background-color: green;
 }

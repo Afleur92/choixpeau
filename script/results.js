@@ -1,7 +1,19 @@
 import { knn, searchHouse } from './knn.js';
 import { validInteger, mergingTables } from './import_table.js';
+import {addEventStartQuizz} from './quizz.js';
 
 const charactersTab = await mergingTables();
+
+function createArrow() {
+    /*Creates an arrow
+    Output: arrow (img) */
+    let arrow = document.createElement('img');
+    arrow.src = "./data/Arrow.JPG";
+    arrow.id = "arrow";
+    arrow.alt = "Flèche retour";
+
+    return arrow;
+}
 
 function sumArrays(arrayA, arrayB) {
     /*Sums two arrays
@@ -90,10 +102,94 @@ function createButtonRestart() {
     /*Creates a button to restart
     output: buttonRestart (button) */
     let buttonRestart = document.createElement('button');
-    buttonRestart.id = "bigButton";
-    buttonRestart.appendChild(document.createTextNode("RECOMMENCER"));
+    buttonRestart.className = "bigButton";
+    buttonRestart.id = "restartButton";
+    buttonRestart.appendChild(document.createTextNode("Recommencer"));
 
     return buttonRestart;
+}
+
+function quitNeighbors(neighbors, arrow, answers, k) {
+    /*Quits the neighbors display
+    Inputs:
+    - neighbors (div)
+    - arrow (img)
+    - answers (array)
+    - k (number) */
+    neighbors.remove();
+    arrow.remove();
+
+    showResult(answers, k);
+}
+
+function tableNeighbors(nearestNeighbors, neighbors) {
+    /*Creates a table displaying the nearest neighbors
+    Inputs:
+    - nearestNeighbors (object)
+    - neighbors (div) */
+
+    let table = document.createElement("table");
+    table.innerHTML = "<thead>\
+            <tr>\
+                <th>Nom</th>\
+                <th>Maison</th>\
+                <th>Distance</th>\
+            </tr>\
+        </thead>\
+        <tbody id='table-body'></tbody>"
+    neighbors.appendChild(table);
+
+    const tableBody = document.getElementById("table-body");
+
+    nearestNeighbors.forEach(character => {
+        let row = document.createElement("tr");
+        row.className =`house-${character.House}`
+        row.innerHTML = `
+                <td>${character.Name}</td>
+                <td>${character.House}</td>
+                <td>${character.Distance.toFixed(3)}</td>`;
+        tableBody.appendChild(row);
+    });
+}
+
+function displayNeighbors(nearestNeighbors, answers, k) {
+    /*Displays the neighbors
+    Inputs:
+    - nearestNeighbors (object)
+    - answers (array)
+    - k (number) */
+
+    let result = document.querySelector("div");
+    if (result) { result.remove() }
+
+    let neighbors = document.createElement('div');
+    neighbors.id = "neighbors";
+    document.body.appendChild(neighbors);
+
+    console.log(nearestNeighbors);
+    tableNeighbors(nearestNeighbors, neighbors);
+
+    let arrow = createArrow();
+    neighbors.appendChild(arrow);
+    arrow.addEventListener("click",
+        function () { quitNeighbors(neighbors, arrow, answers, k) });
+}
+
+function createButtonNeighbors(nearestNeighbors, answers, k) {
+    /*Creates a button to show the nearest neighbors
+    Inputs:
+    - nearestNeighbors (object)
+    - answers (array)
+    - k (number)
+    Output: buttonNeighbors (button) */
+    let buttonNeighbors = document.createElement('button');
+    buttonNeighbors.id = "buttonNeighbors";
+    buttonNeighbors.className = "bigButton";
+    buttonNeighbors.appendChild(document.createTextNode("Voir mes voisins"));
+    buttonNeighbors.addEventListener("click",
+        function () { displayNeighbors(nearestNeighbors, answers, k) });
+
+    return buttonNeighbors
 }
 
 function showResult(answers, k) {
@@ -127,8 +223,8 @@ function showResult(answers, k) {
 
     let buttonRestart = createButtonRestart();
     result.appendChild(buttonRestart);
-
-    return buttonRestart;
+    result.appendChild(createButtonNeighbors(nearestNeighbors, answers, k));
+    addEventStartQuizz(buttonRestart);
 }
 
-export { showResult };
+export { showResult, createArrow };
