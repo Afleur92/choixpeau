@@ -119,7 +119,8 @@ function quitSettings(element, settingsImage, arrow) {
     arrow.remove();
     document.querySelector('ul').remove();
 
-    if (element.id === "result" || "neighbors") {
+    if (element.id === "result" || element.id === "neighbors") {
+        console.log(element.id, settingsImage, arrow);
         showResult(answers, k);
     } else {
         document.body.appendChild(element);
