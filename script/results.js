@@ -1,6 +1,7 @@
 import { knn, searchHouse } from './knn.js';
 import { validInteger, mergingTables } from './import_table.js';
-import {addEventStartQuizz} from './quizz.js';
+import { addEventStartQuizz } from './quizz.js';
+import { use_model, translator, MODEL } from './ai.js'
 
 const charactersTab = await mergingTables();
 
@@ -114,7 +115,7 @@ function quitNeighbors(neighbors, arrow, answers, k) {
     Inputs:
     - neighbors (div)
     - arrow (img)
-    - answers (array)
+    - answers (object)
     - k (number) */
     neighbors.remove();
     arrow.remove();
@@ -143,7 +144,7 @@ function tableNeighbors(nearestNeighbors, neighbors) {
 
     nearestNeighbors.forEach(character => {
         let row = document.createElement("tr");
-        row.className =`house-${character.House}`
+        row.className = `house-${character.House}`
         row.innerHTML = `
                 <td>${character.Name}</td>
                 <td>${character.House}</td>
@@ -156,7 +157,7 @@ function displayNeighbors(nearestNeighbors, answers, k) {
     /*Displays the neighbors
     Inputs:
     - nearestNeighbors (object)
-    - answers (array)
+    - answers (object)
     - k (number) */
 
     let result = document.querySelector("div");
@@ -179,7 +180,7 @@ function createButtonNeighbors(nearestNeighbors, answers, k) {
     /*Creates a button to show the nearest neighbors
     Inputs:
     - nearestNeighbors (object)
-    - answers (array)
+    - answers (object)
     - k (number)
     Output: buttonNeighbors (button) */
     let buttonNeighbors = document.createElement('button');
@@ -195,18 +196,22 @@ function createButtonNeighbors(nearestNeighbors, answers, k) {
 function showResult(answers, k) {
     /*Shows the results for the profile 
     Inputs:
-    - answers (array)
+    - answers (array or object)
     - k (number)
     Output: buttonRestart (button) */
-    const profile = createProfile(answers);
+    console.log(answers);
+    let result = document.createElement('div');
+    document.body.appendChild(result);
+    let profile = answers;
+
+    if (answers.length) {
+        profile = createProfile(profile);
+        result.id = "result";
+    } else { result.id = "customProfileResult"; }
     console.log("k = ", k);
     const nearestNeighbors = knn(profile, charactersTab, k);
     const house = searchHouse(nearestNeighbors);
     const resultText = "Bravo ! Vous appartenez à la maison : " + house;
-
-    let result = document.createElement('div');
-    result.id = "result";
-    document.body.appendChild(result);
 
     let text = document.createElement('h1');
     text.appendChild(document.createTextNode(resultText));
@@ -225,6 +230,43 @@ function showResult(answers, k) {
     result.appendChild(buttonRestart);
     result.appendChild(createButtonNeighbors(nearestNeighbors, answers, k));
     addEventStartQuizz(buttonRestart);
+
+    let button_ai = document.createElement('button');
+    button_ai.className = "bigButton";
+    button_ai.appendChild(document.createTextNode("utiliser l'ia"));
+    button_ai.addEventListener('click', function () { showAiResult(profile) });
+    result.appendChild(button_ai);
+}
+
+function showAiResult(profile) {
+    /*Shows the results for the profile by using ai
+    Inputs:
+    - answers (array)*/
+    document.querySelector('div').remove();
+    
+    const house = use_model(MODEL, translator, profile);
+    const resultText = "Bravo vous apartenez a la maison" + house;
+
+    let result = document.createElement('div');
+    result.id = 'aiResult';
+    document.body.appendChild(result)
+
+    let text = document.createElement('h1');
+    text.innerText = resultText;
+    result.appendChild(text);
+
+    let img = document.createElement('img');
+    img.src = "./data/" + house + ".jpg";
+    img.alt = "blason " + house;
+    img.id = "blason";
+    result.appendChild(img);
+
+    let profileText = profileToText(profile);
+    result.appendChild(profileText);
+
+    let restartButton = createButtonRestart();
+    result.appendChild(restartButton);
+    addEventStartQuizz(restartButton);
 }
 
 export { showResult, createArrow };

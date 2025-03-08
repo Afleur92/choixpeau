@@ -34,20 +34,31 @@ h3 {
     background-color: rgb(37, 103, 245);
     font-size: 1.5em;
     text-align: center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+}
+
+.answer {
+    margin: auto;
+    margin-top: 1.5%;
+    padding: 10px;
 }
 
 button {
+    margin-left: auto;
+    margin-right: auto;
     font-size: 1em;
+    margin-top: 1.5%;
     display: block;
-    margin: auto;
-    margin-top: 3%;
     border-radius: 5px;
     box-shadow:
         inset 2px 2px 3px rgba(255, 255, 255, 0.6),
         inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+}
+
+button:focus 
+{
+    box-shadow:
+        inset 2px 2px 3px rgba(0, 0, 0, 0.6),
+        inset -2px -2px 3px rgba(255, 255, 255, 0.6);
 }
 
 #previousButton {
@@ -67,7 +78,7 @@ button {
     position: fixed;
     top: 2%;
     left: 2%;
-    width: 100px;
+    width: 50px;
 }
 
 #kSelector {
@@ -94,12 +105,14 @@ table {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
 }
 
 th,
 td {
     padding: 12px;
     border-bottom: 1px solid #000000;
+    text-align: center;
 }
 
 th {
@@ -112,17 +125,37 @@ tr:hover {
 }
 
 .house-Gryffindor {
-    background-color: red;
+    background-color: rgba(255, 0, 0, 0.863);
 }
 
 .house-Hufflepuff {
-    background-color: goldenrod;
+    background-color: rgba(218, 165, 32, 0.863);
 }
 
 .house-Ravenclaw {
-    background-color: blue;
+    background-color: rgba(0, 0, 255, 0.671);
 }
 
 .house-Slytherin {
-    background-color: green;
+    background-color: rgba(0, 128, 0, 0.829);
+}
+
+input {
+    margin-left: 10px;
+}
+
+li {
+    margin: 30px;
+}
+
+p {
+    font-family: 'Arial', 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    margin: 10px;
+    padding: 0.2em;
+}
+
+.rangeInput {
+    display: block;
+    margin: auto;
 }

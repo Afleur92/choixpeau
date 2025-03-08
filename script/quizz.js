@@ -4,10 +4,12 @@ import { showResult, createArrow } from './results.js';
 const questions = await importData("./data/QCM.csv", false);
 let answers = [];
 let k = 5;
+let customProfile = { "Courage": 5, "Ambition": 5, "Intelligence": 5, "Good": 5 };
 
 function startQuizz() {
     /*Sarts the quizz */
     answers = [];
+    customProfile = {};
     let welcomePage = document.querySelector('div');
     if (welcomePage) {
         welcomePage.remove();
@@ -50,6 +52,7 @@ function createButtons(questions, questionId) {
 
             buttons[answer] = document.createElement('button');
             buttons[answer].appendChild(document.createTextNode(questions[questionId][answer]));
+            buttons[answer].className = "answer";
             //Takes the letter of the answer as id
             let letter = answer.slice(-1);
             buttons[answer].id = letter;
@@ -101,6 +104,62 @@ function previousQuestion(question) {
     }
 }
 
+function showResultCustomProfile(characteristics, settingsImage) {
+    /*Shows the result for the custom profile
+    Inputs:
+    - characteristics (array)
+    - settingsImage (img) */
+    answers = [];
+    characteristics.forEach(characteristic => {
+        let answer = document.getElementById(characteristic).value
+        customProfile[characteristic] = parseInt(answer);
+    })
+    k = document.getElementById('k').value;
+    if (isNaN(parseInt(k)) || parseInt(k) < 1 || parseInt(k) > 50) {
+        alert("La valeur de k saisie n'est pas valide. Par conséquent k=5");
+        k = 5;
+    } else {
+        k = parseInt(k);
+    }
+    document.querySelector('ul').remove();
+    document.getElementById('arrow').remove();
+    document.body.appendChild(settingsImage);
+    console.log(customProfile);
+    showResult(customProfile, k);
+}
+
+function customProfileEntries(settingsImage) {
+    /*Creates the entries for the custom profile
+    Input: settingsImage (img)
+    Output: customProfileEntries (li) */
+    const characteristics = ["Courage", "Ambition", "Intelligence", "Good"];
+    let customProfileEntries = document.createElement("li");
+    customProfileEntries.innerHTML = "Vorte profil : <br/>";
+
+    characteristics.forEach(characteristic => {
+        let enterProfile = document.createElement('p');
+        enterProfile.id = "enterProfile";
+        customProfileEntries.appendChild(enterProfile);
+
+        enterProfile.appendChild(document.createTextNode(characteristic + " :"))
+
+        let selectCharacteristic = document.createElement('input');
+        selectCharacteristic.type = "range";
+        selectCharacteristic.id = characteristic;
+        selectCharacteristic.className = "rangeInput";
+        selectCharacteristic.min = 0;
+        selectCharacteristic.max = 10;
+        selectCharacteristic.defaultValue = customProfile[characteristic];
+        enterProfile.appendChild(selectCharacteristic);
+    })
+
+    let buttonResult = document.createElement('button');
+    buttonResult.appendChild(document.createTextNode("Résultats"));
+    buttonResult.addEventListener("click", function () { showResultCustomProfile(characteristics, settingsImage) });
+    customProfileEntries.appendChild(buttonResult);
+
+    return customProfileEntries;
+}
 function quitSettings(element, settingsImage, arrow) {
     /*quits the settings
     Inputs:
@@ -119,18 +178,34 @@ function quitSettings(element, settingsImage, arrow) {
     arrow.remove();
     document.querySelector('ul').remove();
 
-    if (element.id === "result" || "neighbors") {
-        showResult(answers, k);
-    } else {
-        document.body.appendChild(element);
+    switch (element.id) {
+        case "customProfileResult":
+            showResult(customProfile, k);
+            break;
+        case "result":
+            showResult(answers, k);
+            break;
+        case "neighbors":
+            if (answers.length === 0) {
+                showResult(customProfile, k);
+            } else {
+                showResult(answers, k);
+            }
+            break;
+        case "aiResult":
+            showAiResult(answers);
+            break;
+        default:
+            document.body.appendChild(element);
     }
     document.body.appendChild(settingsImage);
 
     return k;
 }
 
-function settings() {
-    /*Displays the settings */
+function settings(settingsImage) {
+    /*Displays the settings*
+    Input: settingsImage (img) */
     let settings = document.createElement("ul");
     document.body.appendChild(settings)
 
@@ -138,7 +213,7 @@ function settings() {
     let kSelector = document.createElement('li');
     settings.appendChild(kSelector);
 
-    let selectKText = document.createTextNode('Sélectionner une valeur de k : ')
+    let selectKText = document.createTextNode('Sélectionner une valeur de k :')
     kSelector.appendChild(selectKText);
 
     let selectKInput = document.createElement('input');
@@ -148,6 +223,9 @@ function settings() {
     selectKInput.max = 50;
     selectKInput.defaultValue = k;
     kSelector.appendChild(selectKInput);
+
+    //Enter custom profile
+    settings.appendChild(customProfileEntries(settingsImage));
 
     //Get infos
     let infosLink = document.createElement('li');
@@ -162,7 +240,7 @@ function openSettings() {
     let div = document.querySelector("div");
     if (div) { div.remove(); }
 
-    settings();
+    settings(settingsImage);
 
     let arrow = createArrow();
     document.body.appendChild(arrow);
