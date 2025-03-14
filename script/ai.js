@@ -347,7 +347,7 @@ function test_model(data, model, translator) {
     return correct_answer / data.length;
 }
 
-function use_model(model, translator, profile) {
+function use_model(model, translator, profile, knowMatchingPercent = false) {
     /* use a model to determine a house for a profile
     
     Input :
@@ -388,7 +388,9 @@ function use_model(model, translator, profile) {
     for(let house_choice of result)
         if(house_choice[1] > choosen_house[1])
             choosen_house = house_choice;
-    return choosen_house[0];
+    if(!knowMatchingPercent)
+        return choosen_house[0];
+    else return [choosen_house[0], result];
 }
 
 /*

@@ -30,7 +30,7 @@ function sumArrays(arrayA, arrayB) {
     return arrayC;
 }
 
-/* la notmalisation permet d'exagérer les traits de caractère
+/* la normalisation permet d'exagérer les traits de caractère
    en mettant à 1 la caractéristique la moins importante
    et à 9 la plus importante */
 function normalization(sumAnswers) {
@@ -65,7 +65,7 @@ function createProfile(answers) {
     Output: profile (object) */
     const keys = ["Courage", "Ambition", "Intelligence", "Good"];
     let profile = {};
-    let sumAnswers = [0, 0, 0, 0];
+    let sumAnswers = [0, -1, 0, 1];
     for (let answer of answers) {
         answer = answer.trim().slice(1, -1).split(',');
         answer = answer.map(validInteger);
@@ -244,8 +244,10 @@ function showAiResult(profile) {
     - answers (array)*/
     document.querySelector('div').remove();
     
-    const house = use_model(MODEL, translator, profile);
-    const resultText = "Bravo vous apartenez a la maison" + house;
+    const aiResult = use_model(MODEL, translator, profile, true);
+
+    const house = aiResult[0];
+    const resultText = "Bravo vous apartenez a la maison : " + house;
 
     let result = document.createElement('div');
     result.id = 'aiResult';
@@ -267,6 +269,53 @@ function showAiResult(profile) {
     let restartButton = createButtonRestart();
     result.appendChild(restartButton);
     addEventStartQuizz(restartButton);
+
+    let detailButton = document.createElement('button');
+    detailButton.className = "bigButton";
+    detailButton.appendChild(document.createTextNode("voire pourcentage d'affiliation"));
+    detailButton.addEventListener('click', function() { displayMatchingPercent(aiResult[1], profile) });
+    result.appendChild(detailButton);
+}
+
+function displayMatchingPercent(result, profile) {
+    let old_div = document.querySelector('div');
+    old_div.remove();
+
+    let percent = document.createElement('div');
+    percent.id = "matchingPercent";
+    document.body.appendChild(percent);
+
+    percent.appendChild(tableMatchingPercent(result));
+    let arrow = createArrow();
+    percent.appendChild(arrow);
+    arrow.addEventListener('click', function() { quitMatchingPercent(arrow, profile) })
+}
+
+function tableMatchingPercent(result) {
+    let table = document.createElement('table');
+    table.innerHTML = "<thead>\
+                            <tr>\
+                                <th>Maison</th>\
+                                <th>Pourcentage d'affiliation</th>\
+                            </tr>\
+                        </thaed>\
+                        <tbody id=table-body></tbody>";
+    let tableBody = table.querySelector('tbody');
+    
+    for(let house of result) {
+        let row = document.createElement('tr')
+        row.className = "house-" + house[0]
+        row.innerHTML = `<td>${house[0]}</td>
+                        <td>${(house[1] * 100).toFixed(3)}%`
+        tableBody.appendChild(row)
+    }
+    return table
+}
+
+function quitMatchingPercent(arrow, profile) {
+    arrow.remove();
+
+    showAiResult(profile);
 }
 
 export { showResult, createArrow };
