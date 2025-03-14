@@ -229,7 +229,7 @@ function settings(settingsImage) {
 
     //Get infos
     let infosLink = document.createElement('li');
-    infosLink.innerHTML = "Télécharger l'<a href='./data/infographie.pdf' target='_blank'>infographie<a>";
+    infosLink.innerHTML = "Télécharger l'<a href='./Choixpeau_DELAGORCE-ARFAOUI_FLEURANCE_LEROCH.pdf' target='_blank'>infographie<a>";
     settings.appendChild(infosLink);
 }
 
